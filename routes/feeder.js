@@ -1,30 +1,34 @@
 var express = require('express');
 var router = express.Router();
 const Feed = require('feed');
-
+var reader = require('../helpers/readStream');
+var fs = require('fs');
 router.get('/', function(req, res, next) {
     var feed = new Feed({
         title: 'Southern Peru Cooper Corporation',
         description: 'Indicadores de producción de cobre',
-        id: 'http://example.com/',
-        link: 'http://example.com/',
-        image: 'http://example.com/image.png',
         favicon: 'http://example.com/favicon.ico',
         copyright: 'All rights reserved',
-        updated: new Date(2013, 06, 14), // optional, default = today
-        generator: 'awesome', // optional, default = 'Feed for Node.js'
-        feedLinks: {
-            json: 'https://example.com/json',
-            atom: 'https://example.com/atom',
-        },
+        updated: new Date(2013, 6, 14), // optional, default = today
         author: {
-            name: 'John Doe',
-            email: 'johndoe@example.com',
-            link: 'https://example.com/johndoe'
+            name: 'Kevin Herrera',
+            email: 'ibecti@southernperu.com.pe',
         }
+    });
+    var input = fs.createReadStream('../RSS/public/frases.txt');
+    reader(input)
+        .then(data=>res.send(data))
+    feed.addItem({
+        title: 'title',
+        description: 'description',
+        content: 'content',
     });
     res.set('Content-Type', 'text/xml');
     res.send(feed.rss2());
+});
+
+router.get('/phrases',function(req,res,next){
+
 
 });
 module.exports = router;
