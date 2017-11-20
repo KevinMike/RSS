@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const Feed = require('feed');
-var reader = require('../helpers/readStream');
-var fs = require('fs');
-router.get('/', function(req, res, next) {
+const reader = require('../helpers/readStream');
+const fs = require('fs');
+router.get('/', function (req, res, next) {
     var feed = new Feed({
         title: 'Southern Peru Cooper Corporation',
         description: 'Indicadores de producción de cobre',
@@ -15,19 +15,21 @@ router.get('/', function(req, res, next) {
             email: 'ibecti@southernperu.com.pe',
         }
     });
-    var input = fs.createReadStream('../RSS/public/frases.txt');
-    reader(input)
-        .then(data=>res.send(data))
-    feed.addItem({
-        title: 'title',
-        description: 'description',
-        content: 'content',
-    });
-    res.set('Content-Type', 'text/xml');
-    res.send(feed.rss2());
+    //Add security phrases
+    reader('../RSS/public/frases.txt')
+        .then((data) => {
+            feed.addItem({
+                title: 'Frases de Seguridad',
+                //description: 'description',
+                content: data,
+            });
+            res.set('Content-Type', 'text/xml');
+            res.send(feed.rss2());
+        });
+
 });
 
-router.get('/phrases',function(req,res,next){
+router.get('/phrases', function (req, res, next) {
 
 
 });
