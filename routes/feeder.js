@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const Feed = require('feed');
-var reader = require('../helpers/readStream');
-var fs = require('fs');
-router.get('/', function(req, res, next) {
+const reader = require('../helpers/readStream');
+const scraper = require('../helpers/scraper');
+
+router.get('/', function (req, res, next) {
     var feed = new Feed({
         title: 'Southern Peru Cooper Corporation',
         description: 'Indicadores de producción de cobre',
@@ -15,22 +16,25 @@ router.get('/', function(req, res, next) {
             email: 'ibecti@southernperu.com.pe',
         }
     });
-    var input = fs.createReadStream('../RSS/public/frases.txt');
-    reader(input)
-        .then(data=>res.send(data))
-    feed.addItem({
-        title: 'title',
-        description: 'description',
-        content: 'content',
-    });
-
-    res.set('Content-Type', 'text/xml');
-    res.set('Content-Disposition', 'attachment')
-    res.send(feed.rss2());
+    //Add content
+    reader('../RSS/public/frases.txt')
+        .then((data) => {
+            feed.addItem({
+                title: 'Frases de Seguridad',
+                content: data,
+            });
+            return scraper('http://markets.businessinsider.com/commodities/copper-price','push-data');
+        })
+        .then((data) => {
+            console.log('valor devuelto' + data)
+            feed.addItem({
+                title: 'Precio del Cobre',
+                content: data,
+            });
+            res.set('Content-Type', 'text/xml');
+            res.send(feed.rss2());
+        })
 });
 
-router.get('/phrases',function(req,res,next){
 
-
-});
 module.exports = router;
