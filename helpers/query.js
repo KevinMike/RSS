@@ -1,15 +1,36 @@
 const sql = require('mssql');
 const credentials = {
-    "username" : "sa",
-    "password" : "",
-    "database" : "AdventureWorks",
-    "server" : "PC01"
+    "username": "SOUTHERNPERU\\ibecti",
+    "password": "Octubre2017",
+    "database": "Runtime",
+    "server": "HISTORIANF"
 };
-funtion query(){
-    try {
-        const pool = await sql.connect('mssql://${credentials.user}:${credentials.password}@${credentials.server}/${credentials.$database}');
-        const result = await sql.query`select * from personas`;
-    } catch (err) {
+const config = {
+    user: credentials.username,
+    password: credentials.password,
+    server: credentials.server,
+    database: credentials.database
+};
+
+module.exports.tagValue = function (tagname) {
+    sql.connect(config).then(pool => {
+        return pool.request()
+            .input('input_parameter', sql.NVarChar, tagname)
+            .query("SELECT [TagName],[Value] FROM [Runtime].[dbo].[v_AnalogLive] where [TagName] = '"+tagname+"'")
+    }).then(result => {
+        console.dir(result)
+        return pool.request()
+            .input('input_parameter', sql.Int, value)
+            .output('output_parameter', sql.VarChar(50))
+            .execute('procedure_name')
+    }).then(result => {
+        console.dir(result)
+    }).catch(err => {
         // ... error checks
-    }
+    });
+
+    sql.on('error', err => {
+        // ... error handler
+    })
 };
+
