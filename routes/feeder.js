@@ -3,7 +3,7 @@ const router = express.Router();
 const Feed = require('feed');
 const reader = require('../helpers/readStream');
 const scraper = require('../helpers/scraper');
-
+const query = require('../helpers/query');
 router.get('/', function (req, res, next) {
     var feed = new Feed({
         title: 'Southern Peru Cooper Corporation',
@@ -23,7 +23,7 @@ router.get('/', function (req, res, next) {
                 title: 'Frases de Seguridad',
                 content: data,
             });
-            return scraper('http://markets.businessinsider.com/commodities/copper-price','push-data');
+            return scraper('http://markets.businessinsider.com/commodities/copper-price', 'push-data');
         })
         .then((data) => {
             console.log('valor devuelto' + data)
@@ -35,6 +35,14 @@ router.get('/', function (req, res, next) {
             res.send(feed.rss2());
         })
 });
-
+router.get('/test', function (req, res, next) {
+    query.tagValue('WI220049')
+        .then((result) => {
+            res.send(result)
+        })
+        .catch((err) => {
+            res.send(err)
+        });
+});
 
 module.exports = router;

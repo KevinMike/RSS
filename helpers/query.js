@@ -13,24 +13,28 @@ const config = {
 };
 
 module.exports.tagValue = function (tagname) {
-    sql.connect(config).then(pool => {
-        return pool.request()
-            .input('input_parameter', sql.NVarChar, tagname)
-            .query("SELECT [TagName],[Value] FROM [Runtime].[dbo].[v_AnalogLive] where [TagName] = '"+tagname+"'")
-    }).then(result => {
-        console.dir(result)
-        return pool.request()
-            .input('input_parameter', sql.Int, value)
-            .output('output_parameter', sql.VarChar(50))
-            .execute('procedure_name')
-    }).then(result => {
-        console.dir(result)
-    }).catch(err => {
-        // ... error checks
+    return new Promise(function (resolve, reject) {
+        sql.connect(config).then(pool => {
+            console.log('copnexcion a l bd')
+            return pool.request()
+                .input('input_parameter', sql.NVarChar, tagname)
+                .query("SELECT [TagName],[Value] FROM [Runtime].[dbo].[v_AnalogLive] where [TagName] = '" + tagname + "'")
+        }).then(result => {
+            console.dir(result);
+            sql.close();
+            resolve(result);
+            /*return pool.request()
+                .input('input_parameter', sql.Int, value)
+                .output('output_parameter', sql.VarChar(50))
+                .execute('procedure_name')*/
+        }).catch(err => {
+            sql.close();
+            reject(err);
+        });
+        sql.on('error', err => {
+            sql.close();
+            reject('error de conecion a la bd')
+        })
     });
-
-    sql.on('error', err => {
-        // ... error handler
-    })
 };
 
