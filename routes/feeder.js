@@ -23,7 +23,9 @@ router.get('/', function(req, res, next) {
         description: 'description',
         content: 'content',
     });
+
     res.set('Content-Type', 'text/xml');
+    res.set('Content-Disposition', 'attachment')
     res.send(feed.rss2());
 });
 
