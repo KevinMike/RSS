@@ -1,6 +1,6 @@
 {
-  "username" : "sa",
-  "password" : "",
-  "database" : "AdventureWorks",
-  "server" : "PC01"
+  "database": "Runtime",
+  "server": "HISTORIANF\\\\SQLEXPRESS",
+  "username" : "ibecti@southernperu.com.pe",
+  "password" : "Octubre2017"
 }
