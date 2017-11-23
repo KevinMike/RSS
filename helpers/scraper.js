@@ -6,7 +6,6 @@ module.exports = function (url, classname) {
             if (!error) {
                 let $ = cheerio.load(html);
                 let coppperPrice = $('.' + classname + '').html();
-                console.log(coppperPrice);
                 resolve(coppperPrice+' USD')
             }
             else {
