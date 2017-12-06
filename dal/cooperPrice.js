@@ -8,7 +8,7 @@ module.exports = {
             });
         });
     },
-    getlast : ()=>{
-        return cooperPrice.findOne().sort({ field: -_id }).limit(1)
+    getlast: () => {
+        return cooperPrice.findOne().sort({field: -_id}).limit(1)
     }
 };
