@@ -4,17 +4,20 @@
   "private": true,
   "scripts": {
     "start": "supervisor ./bin/www",
-    "price": "supervisor ./cronJobs/getCopperPrice"
+    "price": "supervisor ./cronJobs/getCopperPrice",
+    "test" : "mocha --watch"
   },
   "dependencies": {
     "async": "^2.6.0",
     "body-parser": "~1.18.2",
+    "chai": "^4.1.2",
     "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "feed": "^1.1.0",
     "jade": "~1.11.0",
+    "mocha": "^4.0.1",
     "mongoose": "^4.13.6",
     "morgan": "~1.9.0",
     "msnodesqlv8": "^0.4.6",

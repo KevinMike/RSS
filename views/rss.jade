@@ -1,0 +1,22 @@
+extends layout
+block content
+    .card
+        .card-header(data-background-color='purple')
+            h4.title RSS FEEDERS
+            p.category Listado
+        .card-content.table-responsive
+            table.table
+                thead.text-primary
+                    th Nombre
+                    th Country
+                    th Opciones
+                tbody
+                    tr
+                        td Descripción
+                        td Niger
+                        td.td-actions.text-right
+                            button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
+                                i.material-icons edit
+                            button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
+                                i.material-icons close
+block Javascript

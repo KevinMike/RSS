@@ -10,7 +10,7 @@ mongoose.connect(config.mongodbString, {
 });
 
 /* segundo minuto hora dia mes dia de la semana (0-7)*/
-cron.schedule('0 0 */12 * * *', function () {
+cron.schedule('0/10 * * * * *', function () {
     return scraper('http://markets.businessinsider.com/commodities/copper-price', 'push-data')
         .then(value => cooperPrice.create({price: parseFloat(value)}))
         .then(record => console.log(record.price, record.money, record.createdAt))
