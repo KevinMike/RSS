@@ -38,7 +38,6 @@ module.exports = {
                             content: item.phrase
                         }))
                     }
-
                     resolve(feed.rss2());
                 })
                 .catch(err => reject(err))

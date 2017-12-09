@@ -1,6 +1,4 @@
 {
   "database": "Runtime",
-  "server": "HISTORIANF\\\\SQLEXPRESS",
-  "username" : "ibecti@southernperu.com.pe",
-  "password" : "Octubre20174"
+  "server": "HISTORIANF\\\\SQLEXPRESS"
 }
