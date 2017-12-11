@@ -1,115 +1,118 @@
 extends layout
 
 block content
-    .row
-        .col-md-12
-            .card
-                .card-header(data-background-color='purple')
-                    h4.title Crear un nuevo RSS Feed
-                    p.category Ingresa los datos solicitados
-                .card-content
-                    form
-                        .row
-                            .col-md-12
-                                .form-group.label-floating
-                                    label.control-label Nombre
-                                    input.form-control(type='text',name='name')
-                        .row
-                            .col-md-12
-                                .form-group
-                                    label Descripción
-                                    .form-group.label-floating
-                                        label.control-label  Ingrese el texto
-                                        textarea.form-control(rows='5',name='description')
-                        .row
-                            table.table
-                                tbody
-                                    tr
-                                        td
-                                            .checkbox
-                                                label
-                                                    input(type='checkbox', name='cnvs', checked='')
-                                        td Añadir información de los convertidores
-                                    tr
-                                        td
-                                            .checkbox
-                                                label
-                                                    input(type='checkbox', name='cooperPrice', checked='')
-                                        td Añadir información sobre el precio de cobre
-                        button.btn.btn-primary.pull-right(type='submit') Registrar
-                        .clearfix
-    .row
-        .col-md-12
-            .card.card-nav-tabs
-                .card-header(data-background-color='purple')
-                    .nav-tabs-navigation
-                        .nav-tabs-wrapper
-                            span.nav-tabs-title Añadir Información:
-                            ul.nav.nav-tabs(data-tabs='tabs')
-                                li.active
-                                    a(href='#indicatorsTab', data-toggle='tab')
-                                        i.material-icons bug_report
-                                        |  Indicadores
-                                        .ripple-container
-                                li
-                                    a(href='#comunicatesTab', data-toggle='tab')
-                                        i.material-icons code
-                                        |  Comunicados
-                                        .ripple-container
-                                li
-                                    a(href='#phrasesTab', data-toggle='tab')
-                                        i.material-icons cloud
-                                        |  Frases de seguridad
-                                        .ripple-container
-                .card-content
-                    .tab-content
-                        #indicatorsTab.tab-pane.active
-                            table.table
-                                tbody
-                                    tr
-                                        td
-                                            .checkbox
-                                                label
-                                                    input(type='checkbox', name='optionsCheckboxes', checked='')
-                                        td Sign contract for "What are conference organizers afraid of?"
-                                        td.td-actions.text-right
-                                            button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
-                                                i.material-icons edit
-                                            button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
-                                                i.material-icons close
+    div(ng-app='indicatorsModule')
+        div(ng-controller='indicatorsController')
+            .row
+                .col-md-12
+                    .card
+                        .card-header(data-background-color='purple')
+                            h4.title Crear un nuevo RSS Feed
+                            p.category Ingresa los datos solicitados
+                        .card-content
+                            form
+                                .row
+                                    .col-md-12
+                                        .form-group.label-floating
+                                            label.control-label Nombre
+                                            input.form-control(type='text',name='name',ng-model='newFeeder.name')
+                                .row
+                                    .col-md-12
+                                        .form-group
+                                            label Descripción
+                                            .form-group.label-floating
+                                                label.control-label  Ingrese el texto
+                                                textarea.form-control(rows='5',name='description',ng-model='newFeeder.description')
+                                .row
+                                    table.table
+                                        tbody
+                                            tr
+                                                td
+                                                    .checkbox
+                                                        label
+                                                            input(type='checkbox', name='cnvs', checked='',ng-model='newFeeder.cnvs')
+                                                td Añadir información de los convertidores
+                                            tr
+                                                td
+                                                    .checkbox
+                                                        label
+                                                            input(type='checkbox', name='cooperPrice', checked='',ng-model='newFeeder.cooperPrice')
+                                                td Añadir información sobre el precio de cobre
+                                button.btn.btn-primary.pull-right(type='submit') Registrar
+                                .clearfix
+            .row
+                .col-md-12
+                    .card.card-nav-tabs
+                        .card-header(data-background-color='purple')
+                            .nav-tabs-navigation
+                                .nav-tabs-wrapper
+                                    span.nav-tabs-title Añadir Información:
+                                    ul.nav.nav-tabs(data-tabs='tabs')
+                                        li.active
+                                            a(href='#indicatorsTab', data-toggle='tab')
+                                                i.material-icons bug_report
+                                                |  Indicadores
+                                                .ripple-container
+                                        li
+                                            a(href='#comunicatesTab', data-toggle='tab')
+                                                i.material-icons code
+                                                |  Comunicados
+                                                .ripple-container
+                                        li
+                                            a(href='#phrasesTab', data-toggle='tab')
+                                                i.material-icons cloud
+                                                |  Frases de seguridad
+                                                .ripple-container
+                        .card-content
+                            .tab-content
+                                #indicatorsTab.tab-pane.active
+                                    .row
+                                        .col-md-12
+                                            .form-group
+                                                label.control-label Añadir
+                                                select#indicatorsSelector.chosen.form-control(name='indicators')
+                                                    each  value in indicators
+                                                        option(value='#{value._id}') #{value.tag} [#{value.units}] : #{value.description}
+                                    .row
 
-                        #comunicatesTab.tab-pane
-                            table.table
-                                tbody
-                                    tr
-                                        td
-                                            .checkbox
-                                                label
-                                                    input(type='checkbox', name='optionsCheckboxes', checked='')
-                                        td
-                                            | Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                        td.td-actions.text-right
-                                            button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
-                                                i.material-icons edit
-                                            button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
-                                                i.material-icons close
-                        #phrasesTab.tab-pane
-                            table.table
-                                tbody
-                                    tr
-                                        td
-                                            .checkbox
-                                                label
-                                                    input(type='checkbox', name='optionsCheckboxes')
-                                        td Lines From Great Russian Literature? Or E-mails From My Boss?
-                                        td.td-actions.text-right
-                                            button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
-                                                i.material-icons edit
-                                            button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
-                                                i.material-icons close
+                                                button.btn.btn-primary.pull-right(type='button', rel='tooltip', title='Añadir',ng-click="addIndicator()")
+                                                    i.material-icons add_box
+                                                    p Agregar
+                                    table.table
+                                        tbody#indicatorsTable
+
+
+                                #comunicatesTab.tab-pane
+                                    table.table
+                                        tbody
+                                            tr
+                                                td
+                                                    .checkbox
+                                                        label
+                                                            input(type='checkbox', name='optionsCheckboxes', checked='')
+                                                td
+                                                    | Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                                                td.td-actions.text-right
+                                                    button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
+                                                        i.material-icons edit
+                                                    button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
+                                                        i.material-icons close
+                                #phrasesTab.tab-pane
+                                    table.table
+                                        tbody
+                                            tr
+                                                td
+                                                    input(type='text',hidden='true')
+                                                td.td-actions.text-right
+                                                    button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
+                                                        i.material-icons edit
+                                                    button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
+                                                        i.material-icons close
 
 block Javascript
-    script(type='text/javascript').
+    script(type='text/javascript',src='/bower_components/chosen/chosen.jquery.js')
+    script(type='text/javascript',src='/js/modules/feedersModule.js').
         $(document).ready(function () {
             document.getElementById('rss').className = 'active';
+            $(".chosen-select").chosen({});
         });

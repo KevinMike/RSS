@@ -2,17 +2,18 @@ extends layout
 block content
     .row(ng-app='indicatorsModule')
         .card(ng-controller='indicatorsController')
-            include indicatorsModal
+            include createIndicatorModal
+            include editIndicatorModal
             .card-header(data-background-color='purple')
                 h4.title TAGS DEL SERVIDOR HISTORIANF
                 p.category Listado
-                button.btn.btn-info.btn-lg.float-right(type='button', data-toggle='modal', data-target='#indicatorsModal') Ingresar nuevo Tag
+                button.btn.btn-info.btn-lg.float-right(type='button', data-toggle='modal', data-target='#createIndicatorModal') Ingresar nuevo Tag
             .card-content.table-responsive
                 table.table
                     thead.text-primary
                         th Tag
                         th Descripción
-                        th Unit
+                        th Unidades
                         th Opciones
                     tbody
                         each value in indicators
@@ -21,9 +22,9 @@ block content
                                 td #{value.description}
                                 td #{value.units}
                                 td.td-actions.text-right
-                                    button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
+                                    button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar',ng-click="setId('#{JSON.stringify(value)}')",data-toggle='modal', data-target='#editIndicatorModal')
                                         i.material-icons edit
-                                    button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
+                                    button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar',ng-click="delete('#{value._id}')")
                                         i.material-icons close
 
 block Javascript

@@ -2,24 +2,26 @@ extends layout
 block content
     .row(ng-app='phrasesModule')
         .card(ng-controller='phrasesController')
-            include phrasesModal
+            include createPhraseModal
+            include editPhraseModal
             .card-header(data-background-color='purple')
                 h4.title FRASES DE SEGURIDAD
                 p.category Listado
-                button.btn.btn-info.btn-lg.float-right(type='button', data-toggle='modal', data-target='#phrasesModal') NUEVO
+                button.btn.btn-info.btn-lg.float-right(type='button', data-toggle='modal', data-target='#createPhraseModal') NUEVO
             .card-content.table-responsive
                 table.table
                     thead.text-primary
                         th Descripción
                         th Opciones
                     tbody
-                        tr
-                            td jnerojnfdjnofljfg
-                            td.td-actions.text-right
-                                button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
-                                    i.material-icons edit
-                                button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
-                                    i.material-icons close
+                        each value in phrases
+                            tr
+                                td #{value.phrase}
+                                td.td-actions.text-right
+                                    button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar',ng-click="setId('#{JSON.stringify(value)}')",data-toggle='modal', data-target='#editPhraseModal')
+                                        i.material-icons edit
+                                    button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar',ng-click="delete('#{value._id}')")
+                                        i.material-icons close
 
 block Javascript
     script(type='text/javascript',src='/js/modules/phrasesModule.js')

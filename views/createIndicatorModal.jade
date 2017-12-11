@@ -1,0 +1,29 @@
+#createIndicatorModal.modal.fade(role='dialog')
+    .modal-dialog
+        form.modal-content.card(ng-submit='create()')
+            .modal-header.card-header(data-background-color='blue')
+                button.close(type='button', data-dismiss='modal') ×
+                h4.modal-title.title Ingresar un Tag
+                    p.category Ingresa los datos solicitados
+            .modal-body.card-content
+                .row
+                    .col-md-6
+                        .form-group.label-floating
+                            label.control-label Tag
+                            input.form-control(type='text',name='tag',ng-model='newIndicator.tag', required='')
+                    .col-md-6
+                        .form-group.label-floating
+                            label.control-label Unidades
+                            input.form-control(type='text',name='units',ng-model='newIndicator.units',required='')
+                .row
+                    .col-md-12
+                        .form-group
+                            label Descripción
+                            .form-group.label-floating
+                                label.control-label  Ingrese el texto
+                                textarea.form-control(rows='5',name='description',ng-model='newIndicator.description',required='')
+
+            .modal-footer
+                button.btn.btn-primary.pull-right(type='submit') Registrar
+                    .clearfix
+                //button.btn.btn-default(type='button', data-dismiss='modal') Close

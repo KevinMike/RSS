@@ -4,24 +4,24 @@ block content
         .card-header(data-background-color='purple')
             h4.title RSS FEEDERS
             p.category Listado
+            a.btn.btn-info.btn-lg.float-right(href='/rss/new') NUEVO
         .card-content.table-responsive
             table.table
                 thead.text-primary
                     th Nombre
-                    th Country
-                    th Opciones
+                    th Descripción
                 tbody
-                    tr
-                        td Descripción
-                        td Niger
-                        td.td-actions.text-right
-                            button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
-                                i.material-icons edit
-                            button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
-                                i.material-icons close
+                    each value in feeders
+                        tr
+                            td #{value.name}
+                            td #{value.description}
+                            td.td-actions.text-right
+                                button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
+                                    i.material-icons edit
+                                button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
+                                    i.material-icons close
 
 block Javascript
-
     script(type='text/javascript').
         $(document).ready(function () {
             document.getElementById('rss').className = 'active';

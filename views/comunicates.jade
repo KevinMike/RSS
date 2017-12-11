@@ -2,24 +2,26 @@ extends layout
 block content
     .row(ng-app='comunicatesModule')
         .card(ng-controller='comunicatesController')
-            include comunicatesModal
+            include createComunicateModal
+            include editComunicateModal
             .card-header(data-background-color='purple')
                 h4.title COMUNICADOS
                 p.category Listado
-                button.btn.btn-info.btn-lg.float-right(type='button', data-toggle='modal', data-target='#comunicatesModal') NUEVO
+                button.btn.btn-info.btn-lg.float-right(type='button', data-toggle='modal', data-target='#createComunicateModal') NUEVO
             .card-content.table-responsive
                 table.table
                     thead.text-primary
                         th Descripción
                         th Opciones
                     tbody
-                        tr
-                            td jnerojnfdjnofljfg
-                            td.td-actions.text-right
-                                button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar',data-toggle='modal', data-target='#comunicatesModal')
-                                    i.material-icons edit
-                                button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
-                                    i.material-icons close
+                        each value in comunicates
+                            tr
+                                td #{value.comunicate}
+                                td.td-actions.text-right
+                                    button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar',ng-click="setId('#{JSON.stringify(value)}')",data-toggle='modal', data-target='#editComunicateModal')
+                                        i.material-icons edit
+                                    button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar',ng-click="delete('#{value._id}')")
+                                        i.material-icons close
 
 block Javascript
     script(type='text/javascript',src='/js/modules/comunicatesModule.js')

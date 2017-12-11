@@ -1,0 +1,18 @@
+#createPhraseModal.modal.fade(role='dialog')
+    .modal-dialog
+        form.modal-content.card(ng-submit='create()')
+            .modal-header.card-header(data-background-color='blue')
+                button.close(type='button', data-dismiss='modal') ×
+                h4.modal-title.title Nueva frase de seguridad
+                    p.category Ingresa los datos solicitados
+            .modal-body.card-content
+                .row
+                    .col-md-12
+                        .form-group
+                            label Descripción
+                            .form-group.label-floating
+                                label.control-label  Ingrese la frase de seguridad
+                                textarea.form-control(rows='5',name='phrase',ng-model='newPhrase.phrase',required='')
+            .modal-footer
+                button.btn.btn-primary.pull-right(type='submit') Registrar
+                    .clearfix
