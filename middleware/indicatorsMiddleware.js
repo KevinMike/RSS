@@ -26,7 +26,7 @@ module.exports.checkIfExist = function (tagname, next) {
             if (result.recordset.length > 0)
                 return next();
             else
-                return next(new Error(message = "Doesn't exits records"))
+                return next(new Error(message = "Doesn't exits records of this tag"))
         })
         .catch(err => {
             sql.close();

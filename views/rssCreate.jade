@@ -10,36 +10,33 @@ block content
                             h4.title Crear un nuevo RSS Feed
                             p.category Ingresa los datos solicitados
                         .card-content
-                            form
-                                .row
-                                    .col-md-12
+                            .row
+                                .col-md-12
+                                    .form-group.label-floating
+                                        label.control-label Nombre
+                                        input.form-control(type='text',name='name',ng-model='newFeeder.name')
+                            .row
+                                .col-md-12
+                                    .form-group
+                                        label Descripción
                                         .form-group.label-floating
-                                            label.control-label Nombre
-                                            input.form-control(type='text',name='name',ng-model='newFeeder.name')
-                                .row
-                                    .col-md-12
-                                        .form-group
-                                            label Descripción
-                                            .form-group.label-floating
-                                                label.control-label  Ingrese el texto
-                                                textarea.form-control(rows='5',name='description',ng-model='newFeeder.description')
-                                .row
-                                    table.table
-                                        tbody
-                                            tr
-                                                td
-                                                    .checkbox
-                                                        label
-                                                            input(type='checkbox', name='cnvs', checked='',ng-model='newFeeder.cnvs')
-                                                td Añadir información de los convertidores
-                                            tr
-                                                td
-                                                    .checkbox
-                                                        label
-                                                            input(type='checkbox', name='cooperPrice', checked='',ng-model='newFeeder.cooperPrice')
-                                                td Añadir información sobre el precio de cobre
-                                button.btn.btn-primary.pull-right(type='submit') Registrar
-                                .clearfix
+                                            label.control-label  Ingrese el texto
+                                            textarea.form-control(rows='5',name='description',ng-model='newFeeder.description')
+                            .row
+                                table.table
+                                    tbody
+                                        tr
+                                            td
+                                                .checkbox
+                                                    label
+                                                        input(type='checkbox', name='cnvs', checked='',ng-model='newFeeder.cnvs')
+                                            td Añadir información de los convertidores
+                                        tr
+                                            td
+                                                .checkbox
+                                                    label
+                                                        input(type='checkbox', name='cooperPrice', checked='',ng-model='newFeeder.cooperPrice')
+                                            td Añadir información sobre el precio de cobre
             .row
                 .col-md-12
                     .card.card-nav-tabs
@@ -67,48 +64,48 @@ block content
                             .tab-content
                                 #indicatorsTab.tab-pane.active
                                     .row
-                                        .col-md-12
-                                            .form-group
+                                        .col-md-10.col-sm-8
                                                 label.control-label Añadir
                                                 select#indicatorsSelector.chosen.form-control(name='indicators')
                                                     each  value in indicators
                                                         option(value='#{value._id}') #{value.tag} [#{value.units}] : #{value.description}
-                                    .row
-
-                                                button.btn.btn-primary.pull-right(type='button', rel='tooltip', title='Añadir',ng-click="addIndicator()")
-                                                    i.material-icons add_box
-                                                    p Agregar
-                                    table.table
-                                        tbody#indicatorsTable
-
-
+                                        .col-md-2.col-sm-4
+                                            br
+                                            button.btn.btn-primary.pull-right(type='button', rel='tooltip', title='Añadir',ng-click="addElementToTable('indicatorsSelector','indicatorsTable')") +
+                                    p Indicadores añadidos
+                                    form#indicatorsForm
+                                        table.table
+                                            tbody#indicatorsTable
                                 #comunicatesTab.tab-pane
-                                    table.table
-                                        tbody
-                                            tr
-                                                td
-                                                    .checkbox
-                                                        label
-                                                            input(type='checkbox', name='optionsCheckboxes', checked='')
-                                                td
-                                                    | Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                                td.td-actions.text-right
-                                                    button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
-                                                        i.material-icons edit
-                                                    button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
-                                                        i.material-icons close
+                                    .row
+                                        .col-md-10.col-sm-8
+                                            label.control-label Añadir
+                                            select#comunicatesSelector.chosen.form-control(name='comunicates')
+                                                each  value in comunicates
+                                                    option(value='#{value._id}') #{value.comunicate}
+                                        .col-md-2.col-sm-4
+                                            br
+                                            button.btn.btn-primary.pull-right(type='button', rel='tooltip', title='Añadir',ng-click="addElementToTable('comunicatesSelector','comunicatesTable')") +
+                                    p Comunicados añadidos
+                                    form#comunicatesForm
+                                        table.table
+                                            tbody#comunicatesTable
                                 #phrasesTab.tab-pane
-                                    table.table
-                                        tbody
-                                            tr
-                                                td
-                                                    input(type='text',hidden='true')
-                                                td.td-actions.text-right
-                                                    button.btn.btn-primary.btn-simple.btn-xs(type='button', rel='tooltip', title='Editar')
-                                                        i.material-icons edit
-                                                    button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar')
-                                                        i.material-icons close
-
+                                    .row
+                                        .col-md-10.col-sm-8
+                                            label.control-label Añadir
+                                            select#phrasesSelector.chosen.form-control(name='phrases')
+                                                each  value in phrases
+                                                    option(value='#{value._id}') #{value.phrase}
+                                        .col-md-2.col-sm-4
+                                            br
+                                            button.btn.btn-primary.pull-right(type='button', rel='tooltip', title='Añadir',ng-click="addElementToTable('phrasesSelector','phrasesTable')") +
+                                    p Frases de seguridad añadidos
+                                    form#phrasesForm
+                                        table.table
+                                            tbody#phrasesTable
+            button.btn.btn-primary.pull-right(type='submit',ng-click='create()') Registrar
+                .clearfix
 block Javascript
     script(type='text/javascript',src='/bower_components/chosen/chosen.jquery.js')
     script(type='text/javascript',src='/js/modules/feedersModule.js').

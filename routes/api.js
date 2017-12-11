@@ -148,7 +148,7 @@ router.delete('/feeders', function (req, res, next) {
             res.send(err);
         })
 });
-router.put('/feeders/:id/indicators', function (req, res, next) {
+router.put('/api/feeders/:id/indicators', function (req, res, next) {
     try {
         let indicators = (typeof req.body.indicators == 'string') ? [req.body.indicators] : req.body.indicators;
         let tasks = [];
