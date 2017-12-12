@@ -5,7 +5,7 @@
   "scripts": {
     "start": "supervisor ./bin/www",
     "price": "supervisor ./cronJobs/getCopperPrice",
-    "test": "mocha"
+    "test": "mocha --timeout 5000"
   },
   "dependencies": {
     "async": "^2.6.0",

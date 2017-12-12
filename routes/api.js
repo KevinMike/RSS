@@ -132,7 +132,7 @@ router.post('/feeders', function (req, res, next) {
             res.send(err);
         })
 });
-router.put('/feeders', function (req, res, next) {
+router.put('/feeders/:id', function (req, res, next) {
     feeders.update({_id: req.body.id}, req.body)
         .then(item => res.send(item))
         .catch(err => {
@@ -140,16 +140,17 @@ router.put('/feeders', function (req, res, next) {
             res.send(err);
         })
 });
-router.delete('/feeders', function (req, res, next) {
-    feeders.remove({_id: req.body.id})
+router.delete('/feeders/:id', function (req, res, next) {
+    feeders.remove({_id: req.params.id})
         .then(item => res.send(item))
         .catch(err => {
             res.statusCode = 404;
             res.send(err);
         })
 });
-router.put('/api/feeders/:id/indicators', function (req, res, next) {
+router.put('/feeders/:id/indicators', function (req, res, next) {
     try {
+        console.log(req.body);
         let indicators = (typeof req.body.indicators == 'string') ? [req.body.indicators] : req.body.indicators;
         let tasks = [];
         if (indicators.length > 0) {

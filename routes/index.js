@@ -6,12 +6,8 @@ var comunicatesDAL = require('../dal/comunicate');
 var feedersDAL = require('../dal/feeder');
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.render('index', {title: 'Express'});
-});
-router.get('/rss', function (req, res, next) {
     feedersDAL.list().then(records => res.render('rss', {feeders: records}))
         .catch(err => next(err))
-
 });
 router.get('/rss/new', function (req, res, next) {
     Promise.all([indicatorsDAL.list(), comunicatesDAL.list(), phrasesDAL.list()])
@@ -22,6 +18,22 @@ router.get('/rss/new', function (req, res, next) {
             res.send(err);
         })
 });
+router.get('/rss/edit/:id', function (req, res, next) {
+    Promise.all([indicatorsDAL.list(), comunicatesDAL.list(), phrasesDAL.list()])
+        .then(results => {
+            feedersDAL.getOne({_id:req.params.id})
+                .then(record => {
+                    res.render('rssEdit', {indicator:record,indicators: results[0], comunicates: results[1], phrases: results[2]});
+                })
+                .catch(err => {
+                    res.send(err);
+                })
+        })
+        .catch(err => {
+            res.send(err);
+        })
+});
+
 router.get('/phrases', function (req, res, next) {
     phrasesDAL.list().then(records => res.render('phrases', {phrases: records}))
         .catch(err => next(err))

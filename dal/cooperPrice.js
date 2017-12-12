@@ -9,6 +9,9 @@ module.exports = {
         });
     },
     getlast: () => {
-        return cooperPrice.findOne().sort({field: -_id}).limit(1)
+        return cooperPrice.findOne({}, {}, { sort: { 'created_at' : -1 } }, function(err, price) {
+            if (err) return err;
+            return price;
+        });
     }
 };

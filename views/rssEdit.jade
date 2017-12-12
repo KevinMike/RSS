@@ -7,21 +7,21 @@ block content
                 .col-md-12
                     .card
                         .card-header(data-background-color='purple')
-                            h4.title Crear un nuevo RSS Feed
+                            h4.title Actualizar RSS Feed
                             p.category Ingresa los datos solicitados
                         .card-content
                             .row
                                 .col-md-12
-                                    .form-group.label-floating
+                                    .form-group
                                         label.control-label Nombre
-                                        input.form-control(type='text',name='name',ng-model='newFeeder.name')
+                                        input.form-control(type='text',name='name',ng-model='editedFeeder.name', ng-init="editedFeeder.name ='#{indicator.name}'")
                             .row
                                 .col-md-12
                                     .form-group
                                         label Descripción
-                                        .form-group.label-floating
+                                        .form-group
                                             label.control-label  Ingrese el texto
-                                            textarea.form-control(rows='5',name='description',ng-model='newFeeder.description')
+                                            textarea.form-control(rows='5',name='description',ng-model='editedFeeder.description', ng-init="editedFeeder.description ='#{indicator.description}'")
                             .row
                                 table.table
                                     tbody
@@ -29,13 +29,13 @@ block content
                                             td
                                                 .checkbox
                                                     label
-                                                        input(type='checkbox', name='cnvs', checked='',ng-model='newFeeder.cnvs')
+                                                        input(type='checkbox', name='cnvs', ng-model='editedFeeder.cnvs', ng-init='editedFeeder.cnvs = #{indicator.cnvs}')
                                             td Añadir información de los convertidores
                                         tr
                                             td
                                                 .checkbox
                                                     label
-                                                        input(type='checkbox', name='cooperPrice', checked='',ng-model='newFeeder.cooperPrice')
+                                                        input(type='checkbox', name='cooperPrice', ng-model='editedFeeder.cooperPrice',ng-init='editedFeeder.cooperPrice = #{indicator.cooperPrice}')
                                             td Añadir información sobre el precio de cobre
             .row
                 .col-md-12
@@ -65,10 +65,10 @@ block content
                                 #indicatorsTab.tab-pane.active
                                     .row
                                         .col-md-10.col-sm-8
-                                                label.control-label Añadir
-                                                select#indicatorsSelector.chosen.form-control(name='indicators')
-                                                    each  value in indicators
-                                                        option(value='#{value._id}') #{value.tag} [#{value.units}] : #{value.description}
+                                            label.control-label Añadir
+                                            select#indicatorsSelector.chosen.form-control(name='indicators')
+                                                each  value in indicators
+                                                    option(value='#{value._id}') #{value.tag} [#{value.units}] : #{value.description}
                                         .col-md-2.col-sm-4
                                             br
                                             button.btn.btn-primary.pull-right(type='button', rel='tooltip', title='Añadir',ng-click="addElementToTable('indicatorsSelector','indicatorsTable')") +
@@ -104,7 +104,7 @@ block content
                                     form#phrasesForm
                                         table.table
                                             tbody#phrasesTable
-            button.btn.btn-primary.pull-right(ng-click='create()') Registrar
+            button.btn.btn-primary.pull-right(ng-click='create()') Actualizar
                 .clearfix
 block Javascript
     script(type='text/javascript',src='/bower_components/chosen/chosen.jquery.js')

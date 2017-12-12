@@ -1,6 +1,8 @@
-angular.module('indicatorsModule', [])
-    .controller('indicatorsController', function ($scope, $http) {
+angular.module('feedersModule', [])
+    .controller('feedersController', function ($scope, $http) {
         $scope.newFeeder = {};
+        $scope.editedFeeder = {};
+        $scope.editedFeeder.cnvs = true;
         $scope.create = function () {
             $scope.create = function () {
                 return $http.post('/api/feeders', $scope.newFeeder)
@@ -18,13 +20,13 @@ angular.module('indicatorsModule', [])
                                 align: 'right'
                             }
                         });
+                        // Add Indicators
                         let serializedIndicators = $('#indicatorsForm').serializeArray()
                         if (serializedIndicators.length > 0) {
                             let indicatorsObject = {indicators: []}
                             serializedIndicators.forEach(function (element) {
                                 indicatorsObject.indicators.push(element.value);
                             });
-                            console.log(indicatorsObject);
                             $http.put('/api/feeders/' + data._id + '/indicators', indicatorsObject)
                                 .success(function (data, status, headers, config) {
                                     $scope.newPhrase = {};
@@ -57,7 +59,87 @@ angular.module('indicatorsModule', [])
                                     });
                                 });
                         }
+                        //Add phrases
+                        let serializedPhrases = $('#phrasesForm').serializeArray()
+                        if (serializedPhrases.length > 0) {
+                            let phrasesObject = {phrases: []}
+                            serializedPhrases.forEach(function (element) {
+                                phrasesObject.phrases.push(element.value);
+                            });
+                            $http.put('/api/feeders/' + data._id + '/phrases', phrasesObject)
+                                .success(function (data, status, headers, config) {
+                                    $scope.newPhrase = {};
+                                    $.notify({
+                                        icon: "notifications",
+                                        message: "Frases añadidas"
 
+                                    }, {
+                                        type: 'success',
+                                        timer: 4000,
+                                        placement: {
+                                            from: 'top',
+                                            align: 'right'
+                                        }
+                                    });
+
+                                })
+                                .error(function (error, status, headers, config) {
+                                    $scope.newPhrase = {};
+                                    $.notify({
+                                        icon: "notifications",
+                                        message: "Frases no se pudieron añadir: " + error.message
+                                    }, {
+                                        type: 'error',
+                                        timer: 4000,
+                                        placement: {
+                                            from: 'top',
+                                            align: 'right'
+                                        }
+                                    });
+                                });
+                        }
+                        //Add comunicates
+                        let serializedComunicates = $('#comunicatesForm').serializeArray();
+                        if (serializedComunicates.length > 0) {
+                            let comunicatesObject = {comunicates: []}
+                            serializedComunicates.forEach(function (element) {
+                                comunicatesObject.comunicates.push(element.value);
+                            });
+                            $http.put('/api/feeders/' + data._id + '/comunicates', comunicatesObject)
+                                .success(function (data, status, headers, config) {
+                                    $scope.newPhrase = {};
+                                    $.notify({
+                                        icon: "notifications",
+                                        message: "Comunicados añadidos"
+
+                                    }, {
+                                        type: 'success',
+                                        timer: 4000,
+                                        placement: {
+                                            from: 'top',
+                                            align: 'right'
+                                        }
+                                    });
+
+                                })
+                                .error(function (error, status, headers, config) {
+                                    $scope.newPhrase = {};
+                                    $.notify({
+                                        icon: "notifications",
+                                        message: "Comunicados no se pudieron añadir: " + error.message
+                                    }, {
+                                        type: 'error',
+                                        timer: 4000,
+                                        placement: {
+                                            from: 'top',
+                                            align: 'right'
+                                        }
+                                    });
+                                });
+                        }
+                        setTimeout(function () {
+                            location.pathname = '/'
+                        },3000);
                     })
                     .error(function (error, status, headers, config) {
                         $scope.newPhrase = {};
@@ -74,6 +156,44 @@ angular.module('indicatorsModule', [])
                         });
                     });
             };
+        };
+        $scope.delete = function (value) {
+            $http({
+                method: 'DELETE',
+                url: '/api/feeders/' + value
+            })
+                .success(function (data, status, headers, config) {
+                    $.notify({
+                        icon: "notifications",
+                        message: "El registro se eliminó correctamente"
+
+                    }, {
+                        type: 'success',
+                        timer: 4000,
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        }
+                    });
+
+                    setTimeout(function () {
+                        location.reload();
+                    }, 3000);
+
+                })
+                .error(function (error, status, headers, config) {
+                    $.notify({
+                        icon: "notifications",
+                        message: "Error: " + error.message
+                    }, {
+                        type: 'error',
+                        timer: 4000,
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        }
+                    });
+                });
         };
         $scope.addRow = function (tableId, rowId, rowText) {
             let tr = document.createElement('tr');
