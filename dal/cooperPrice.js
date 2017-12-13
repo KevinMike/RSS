@@ -9,9 +9,12 @@ module.exports = {
         });
     },
     getlast: () => {
-        return cooperPrice.findOne({}, {}, { sort: { 'created_at' : -1 } }, function(err, price) {
-            if (err) return err;
-            return price;
+        let query = cooperPrice.find().sort({"_id": -1}).limit(1);
+        query.exec(function(err,record){
+            if (err)
+                return err;
+            else
+                return record
         });
     }
 };

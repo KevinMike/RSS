@@ -1,5 +1,5 @@
 const indicatorsService = require('./indicators');
-module.exports = (function () {
+module.exports = function () {
     return new Promise(function (resolve, reject) {
         return indicatorsService.tagsValues(['A290_FIT_601.PV', 'TS-290004', 'TC-290004', 'FIT_00206_VALUE', 'FIT_00226_VALUE', 'FIC-290246.PV'])
             .then(function (results) {
@@ -20,4 +20,4 @@ module.exports = (function () {
                 resolve(null)
             })
     })
-});
+};
