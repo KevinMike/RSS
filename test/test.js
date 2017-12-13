@@ -1,7 +1,7 @@
 const mocha = require('mocha');
 const price = require('../dal/cooperPrice');
 const priceMiddleware = require('../middleware/indicatorsMiddleware');
-const feederDal = require('../dal/feeder');
+var feedersDAL = require('../dal/feeder');
 describe('#save()', function () {
     it('Get last cooper price', function (done) {
         const precio = price.getlast();
@@ -27,14 +27,18 @@ describe('#middleware indicators', function () {
     });
 });*/
 
-/*
+
 describe('#Feeder, retriave information', function () {
-    it('update feeder', function () {
-        return feederDal.list()
+    it('update feeder', function (done) {
+        return feedersDAL.getOne({_id:'5a2ebfe24931072bdc6375fa'})
             .then(record => {
-                console.log(record);
+
+                console.log(record)
+                done()
             })
             .catch(err => {
+                done(err)
             })
+
     });
-});*/
+});

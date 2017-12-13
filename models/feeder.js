@@ -28,13 +28,13 @@ let feederSchema = new mongoose.Schema({
 }, {
     collection: 'Feeder'
 });
-let autoPopulateFields = function(next) {
+/*let autoPopulateFields = function(next) {
     //this.populate('indicators');
     this.populate('phrases');
     this.populate('comunicates');
     next();
-};
+};*/
 
-feederSchema.pre('findOne', autoPopulateFields);
+//feederSchema.pre('findOne', autoPopulateFields);
 
 module.exports = mongoose.model('feeder', feederSchema);
