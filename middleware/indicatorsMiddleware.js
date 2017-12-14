@@ -13,16 +13,17 @@ const config = {
     }
 };
 
-module.exports.checkIfExist = function (tagname, next) {
+module.exports.checkIfExist = function (req, res, next) {
     const pool = new sql.ConnectionPool(config);
     sql.connect(config)
         .then(pool => {
             return pool.request()
-                .input('input_parameter', sql.NVarChar, tagname)
-                .query("SELECT [TagName],[Value] FROM [Runtime].[dbo].[v_AnalogLive] where [TagName] = '" + tagname + "'")
+                .input('input_parameter', sql.NVarChar, req.body.tag)
+                .query("SELECT [TagName],[Value] FROM [Runtime].[dbo].[v_AnalogLive] where [TagName] = '" + req.body.tag + "'")
         })
         .then(result => {
             sql.close();
+            console.log(result.recordset.length);
             if (result.recordset.length > 0)
                 return next();
             else

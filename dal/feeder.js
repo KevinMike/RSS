@@ -20,7 +20,6 @@ module.exports = {
     getOne: (query) => {
         return new Promise(function (resolve, reject) {
             feeder.findOne(query,function(err, record) {
-                console.log(record)
                 if (err) {
                     reject(err)
                 } else {

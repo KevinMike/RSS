@@ -8,10 +8,13 @@ module.exports = {
             });
         });
     },
-    getlast: () => {
-        return cooperPrice.findOne({}, {}, { sort: { 'created_at' : -1 } }, function(err, price) {
-            if (err) return err;
-            return price;
+    getlast: function() {
+        return new Promise(function (resolve, reject) {
+            return cooperPrice.findOne().sort({createdAt: -1}).exec(function(err, price) {
+                if(err)
+                    return reject(err);
+                return resolve(price);
+            });
         });
     }
 };

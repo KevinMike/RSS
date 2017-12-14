@@ -1,5 +1,5 @@
 const indicatorsService = require('./indicators');
-module.exports = (function () {
+module.exports = function () {
     return new Promise(function (resolve, reject) {
         return indicatorsService.tagsValues(['A290_FIT_601.PV', 'TS-290004', 'TC-290004', 'FIT_00206_VALUE', 'FIT_00226_VALUE', 'FIC-290246.PV'])
             .then(function (results) {
@@ -13,11 +13,13 @@ module.exports = (function () {
                 let CPS5 = (FIT_00206_VALUE > 25000) ? 'Convertidor 5 soplando' : 'Convertidor 5 en stand by';
                 let CPS6 = (FIT_00226_VALUE > 22000) ? 'Convertidor 6 soplando' : 'Convertidor 6 en stand by';
                 let CPS7 = (FIC_290246 > 22000) ? 'Convertidor 7 soplando' : 'Convertidor 7 en stand by';
-                resolve({cnv4: CPS4, cnv5: CPS5, cnv6: CPS6, cnv7: CPS7});
+                let response = {cnv4: CPS4, cnv5: CPS5, cnv6: CPS6, cnv7: CPS7};
+                console.log(response);
+                resolve(response);
             })
-            .reject(err => {
+            .catch(err => {
                 console.log('Error on converters service ${err}');
-                resolve(null)
+                reject(err)
             })
     })
-});
+};

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const indicators = require('./indicator');
+const indicator = require('./indicator');
 const phrase = require('./phrase');
 const comunicate = require('./comunicate');
 
@@ -13,7 +13,7 @@ let feederSchema = new mongoose.Schema({
         type: String,
         required:true
     },
-    indicators :[{ "type": Schema.Types.ObjectId, "ref": "indicators" }],
+    indicators :[{ "type": Schema.Types.ObjectId, "ref": "indicator" }],
     phrases: [{ "type": Schema.Types.ObjectId, "ref": "phrase" }],
     comunicates: [{ "type": Schema.Types.ObjectId, "ref": "comunicate" }],
     cnvs: {
@@ -28,13 +28,14 @@ let feederSchema = new mongoose.Schema({
 }, {
     collection: 'Feeder'
 });
-/*let autoPopulateFields = function(next) {
-    //this.populate('indicators');
+
+let autoPopulateFields = function(next) {
+    this.populate('indicators');
     this.populate('phrases');
     this.populate('comunicates');
     next();
-};*/
+};
 
-//feederSchema.pre('findOne', autoPopulateFields);
+feederSchema.pre('findOne', autoPopulateFields);
 
 module.exports = mongoose.model('feeder', feederSchema);

@@ -1,4 +1,4 @@
 {
   "database": "Runtime",
-  "server": "HISTORIANF\\\\SQLEXPRESS"
+  "server": "172.17.32.18\\\\SQLEXPRESS"
 }

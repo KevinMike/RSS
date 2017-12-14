@@ -7,7 +7,7 @@ const config = {
     user: credentials.username,
     password: credentials.password,
     driver: 'msnodesqlv8',
-    connectionTimeout: 5000,
+    connectionTimeout : 5000,
     parseJSON: true,
     options: {
         trustedConnection: true

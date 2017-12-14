@@ -1,42 +1,34 @@
 const mocha = require('mocha');
 const price = require('../dal/cooperPrice');
 const priceMiddleware = require('../middleware/indicatorsMiddleware');
-var feedersDAL = require('../dal/feeder');
-describe('#save()', function () {
-    it('Get last cooper price', function (done) {
-        const precio = price.getlast();
-        console.log(precio.price)
-        if (precio !== undefined) {
+const feederDal = require('../dal/feeder');
+const feeder = require('../models/feeder');
+const convertersService = require('../services/converters');
+const expect = require('expect');
+
+describe('#Precio del cobre', function () {
+    it('assertion success', async (done) => {
+        return price.getlast().then(record => {
+            console.log(record);
             done()
-        }
-        else {
-            done(precio)
-        }
+        })
+        .catch(err => {
+            console.log(err);
+            done(err)
+        })
+
     });
 });
 
-/*
-describe('#middleware indicators', function () {
-    it('check if element exists', function (done) {
-        priceMiddleware.checkIfExist('WI220049',function (err) {
-            if(err)
-                return done(err);
-            else
-                return done();
-        })
-    });
-});*/
-
-
-describe('#Feeder, retriave information', function () {
-    it('update feeder', function (done) {
-        return feedersDAL.getOne({_id:'5a2ebfe24931072bdc6375fa'})
+describe('#Convertidores', function () {
+    it('Estado de los convertidores', function (done) {
+        return convertersService()
             .then(record => {
-
                 console.log(record)
                 done()
             })
             .catch(err => {
+                console.log(err)
                 done(err)
             })
 

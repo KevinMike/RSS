@@ -5,6 +5,8 @@ const feeders = require('../dal/feeder');
 const phrases = require('../dal/phrase');
 const indicators = require('../dal/indicator');
 const mongoose = require('mongoose');
+const indicatorsMiddleware = require('../middleware/indicatorsMiddleware');
+
 /* indicators */
 router.get('/indicators', function (req, res, next) {
     indicators.list()
@@ -16,7 +18,7 @@ router.get('/indicators', function (req, res, next) {
             res.send(err);
         })
 });
-router.post('/indicators', function (req, res, next) {
+router.post('/indicators',indicatorsMiddleware.checkIfExist, function (req, res, next) {
     indicators.create(req.body)
         .then(item => res.send(item))
         .catch(err => {
