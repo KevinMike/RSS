@@ -37,15 +37,3 @@ describe('#Feeder, retriave information', function () {
     });
 });
 */
-describe('#Feeder, retriave information', function () {
-    it('update feeder', function (done) {
-        return feeder.findOne({_id:'5a2f87f53f026b010865e696'},function(err, record) {
-            console.log(record);
-            if (err) {
-                done(err)
-            } else {
-                done();
-            }
-        });
-    });
-});
