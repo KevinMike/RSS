@@ -1,4 +1,6 @@
 {
   "database": "Runtime",
-  "server": "172.17.32.18\\\\SQLEXPRESS"
+  "server": "HISTORIANF",
+  "user": "ibecti@southernperu.com.pe",
+  "password": "Octubre2017"
 }

@@ -4,7 +4,7 @@ const async = require('async');
 const config = {
     server: credentials.server,
     database: credentials.database,
-    user: credentials.username,
+    user: credentials.user,
     password: credentials.password,
     driver: 'msnodesqlv8',
     connectionTimeout : 5000,

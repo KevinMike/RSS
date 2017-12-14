@@ -7,30 +7,21 @@ const convertersService = require('../services/converters');
 const expect = require('expect');
 
 describe('#Precio del cobre', function () {
-    it('assertion success', async (done) => {
-        return price.getlast().then(record => {
-            console.log(record);
-            done()
-        })
-        .catch(err => {
-            console.log(err);
-            done(err)
-        })
-
-    });
+    it('recuperar precio del cobre', async () => {
+        const result = await price.getlast();
+        console.log(result);
+        expect(result.price).to.equal(6538.5);
+    })
 });
 
 describe('#Convertidores', function () {
     it('Estado de los convertidores', function (done) {
         return convertersService()
             .then(record => {
-                console.log(record)
-                done()
+                console.log(record);
+                done();
             })
-            .catch(err => {
-                console.log(err)
-                done(err)
-            })
+            .catch(err=>done(err))
 
     });
 });

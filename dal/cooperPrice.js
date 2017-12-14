@@ -2,7 +2,7 @@ const cooperPrice = require('../models/cooperPrice');
 module.exports = {
     create: (data) => {
         return new Promise(function (resolve, reject) {
-            cooperPrice.create(data, function (err, cooperPrice) {
+            return cooperPrice.create(data, function (err, cooperPrice) {
                 if (err) return reject(err);
                 return resolve(cooperPrice);
             });

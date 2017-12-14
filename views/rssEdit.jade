@@ -76,6 +76,14 @@ block content
                                     form#indicatorsForm
                                         table.table
                                             tbody#indicatorsTable
+
+                                                td
+                                                    input(type='text', hidden='true', value='rowId', name="' + tableId + '[]")
+                                                    |  rowText
+                                                td.td-actions.text-right
+                                                    button.btn.btn-danger.btn-simple.btn-xs.pull-right(type='button', rel='tooltip', title='Eliminar', onclick="removeRow(\'' + tr.id + '\')")
+                                                        i.material-icons close
+
                                 #comunicatesTab.tab-pane
                                     .row
                                         .col-md-10.col-sm-8

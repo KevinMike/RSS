@@ -11,5 +11,4 @@ async function añadir1(x) {
     var b = resolverDespuesDe2Segundos(30);
     return x + await a + await b;
 }
-
 var f = añadir1(10);

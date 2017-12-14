@@ -18,7 +18,7 @@ module.exports = function () {
                 resolve(response);
             })
             .catch(err => {
-                console.log('Error on converters service ${err}');
+                console.log('Error on converters service '+err);
                 reject(err)
             })
     })
