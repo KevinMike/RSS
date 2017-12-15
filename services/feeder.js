@@ -50,6 +50,7 @@ module.exports = {
                                 });
                             })
                         }
+
                         catch (err) {
                             console.log('Error en la lectura de indicadores: ' + err);
                         }
