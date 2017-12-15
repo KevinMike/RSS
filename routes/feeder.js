@@ -82,12 +82,12 @@ router.get('/', function (req, res, next) {
         });
 });
 router.get('/:id', function (req, res, next) {
-    feederService.xmlContent({_id:req.params.id})
+    feederService.xmlContent({_id: req.params.id})
         .then(xml => {
             res.set('Content-Type', 'text/xml');
             res.send(xml);
         })
-        .catch(err=>{
+        .catch(err => {
             res.send(err);
         });
 

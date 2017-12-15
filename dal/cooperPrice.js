@@ -11,8 +11,9 @@ module.exports = {
     getlast: function() {
         return new Promise(function (resolve, reject) {
             return cooperPrice.find({}).sort({createdAt: -1}).limit(1).exec(function(err, price) {
-                if(err)
+                if(err){
                     return reject(err);
+                }
                 return resolve(price[0]);
             });
         });

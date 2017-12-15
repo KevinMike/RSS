@@ -1,13 +1,22 @@
 const Feed = require('feed');
 const feeder = require('../dal/feeder');
-const price = require('../dal/cooperPrice');
 const indicators = require('../services/indicators');
 const converters = require('../services/converters');
+const price = require('../dal/cooperPrice');
+const async = require('async');
+
+async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+        await callback(array[index], index, array)
+    }
+    return 'done'
+}
+
 module.exports = {
     xmlContent: (query) => {
         return new Promise((resolve, reject) => {
             feeder.getOne(query)
-                .then(record => {
+                .then(async function (record) {
                     let feed = new Feed({
                         title: record.name + ' - Southern Peru Copper Corporation',
                         description: record.description,
@@ -19,76 +28,80 @@ module.exports = {
                             email: 'ibecti@southernperu.com.pe',
                         }
                     });
-                    // Comunicados
                     if (record.comunicates.length > 0) {
-                        record.comunicates.forEach(item => feed.addItem({
-                            title: item.comunicate,
-                            content: item.comunicate
-                        }))
+                        try {
+                            record.comunicates.forEach(element => feed.addItem({
+                                title: element.comunicate,
+                                content: element.comunicate
+                            }))
+                        }
+                        catch (err) {
+                            console.log('Error en la lectura de comunicados: ' + err);
+                        }
                     }
-                    //Precio del cobre
-                    /*if (record.cooperPrice) {
-                        price.getlast()
-                            .then(recordPrice => {
-                                feed.addItem({
-                                    title: 'Precio del cobre ' + recordPrice.price + ' ' + recordPrice.money,
-                                    content: 'Precio del cobre ' + recordPrice.price + ' ' + recordPrice.money
-                                })
+                    if (record.indicators.length) {
+                        try {
+                            let state = asyncForEach(record.indicators,async function (element,index,array) {
+                                let value = await indicators.singleTagValue(element.tag);
+                                console.log(element,value);
+                                return feed.addItem({
+                                    title: element.description + ': ' + value + ' ' + element.units,
+                                    content: element.description + ': ' + value + ' ' + element.units
+                                });
                             })
-                            .catch(err => {
-                                pass;
-                            })
-                    }*/
-                    if (record.indicators.length > 0) {
-                        record.indicators.forEach(function (element) {
-                            indicators.singleTagValue(element.tag).then(result => {
-                                feed.addItem({
-                                    title: element.description + ' : ' + Math.round(result * 100) / 100 + element.units,
-                                    content: element.description + ' : ' + Math.round(result * 100) / 100 + element.units
-                                })
-                            })
-                                .catch(err => {
-                                    return null;
-                                })
-                        });
+                        }
+                        catch (err) {
+                            console.log('Error en la lectura de indicadores: ' + err);
+                        }
                     }
-/*
+                    if (record.cooperPrice) {
+                        try {
+                            let copperPrice = await price.getlast();
+                            feed.addItem({
+                                title: 'Precio del cobre : ' + copperPrice.price + ' ' + copperPrice.money,
+                                content: 'Precio del cobre : ' + copperPrice.price + ' ' + copperPrice.money
+                            });
+                        }
+                        catch (err) {
+                            console.log('Error en la lectura de precios: ' + err);
+                        }
+                    }
                     if (record.cnvs) {
-                        converters()
-                            .then(result => {
-                                console.log(result)
-                                feed.addItem({
-                                    title: result.cnv4,
-                                    content: result.cnv4
-                                });
-                                feed.addItem({
-                                    title: result.cnv5,
-                                    content: result.cnv5
-                                });
-
-                                feed.addItem({
-                                    title: result.cnv6,
-                                    content: result.cnv6
-                                });
-
-                                feed.addItem({
-                                    title: result.cnv7,
-                                    content: result.cnv7
-                                });
-                            })
-                            .catch(err => {
-                            })
+                        try {
+                            let convertersStatus = await converters();
+                            feed.addItem({
+                                title: convertersStatus.cnv4,
+                                content: convertersStatus.cnv4
+                            });
+                            feed.addItem({
+                                title: convertersStatus.cnv5,
+                                content: convertersStatus.cnv5
+                            });
+                            feed.addItem({
+                                title: convertersStatus.cnv6,
+                                content: convertersStatus.cnv6
+                            });
+                            feed.addItem({
+                                title: convertersStatus.cnv7,
+                                content: convertersStatus.cnv7
+                            });
+                        }
+                        catch (err) {
+                            console.log('Error en la lectura del estado de los convertidores: ' + err);
+                        }
                     }
-*/
-                    /*
-                                        if (record.phrases.length > 0) {
-                                            var ramdon = Math.floor(Math.random() * record.phrases.length);
-                                            feed.addItem({
-                                                title: record.phrase[ramdon],
-                                                content: record.phrase[ramdon]
-                                            });
-                                        }
-                    */
+                    if (record.phrases.length > 0) {
+                        try {
+                            let randomIndex = Math.floor(Math.random() * record.phrases.length);
+                            feed.addItem({
+                                title: record.phrases[randomIndex].phrase,
+                                content: record.phrases[randomIndex].phrase
+                            })
+                        }
+                        catch (err) {
+                            console.log('Error en la lectura de frases: ' + err)
+                        }
+                    }
                     resolve(feed.rss2());
                 })
                 .catch(err => reject(err))

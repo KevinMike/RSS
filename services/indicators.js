@@ -7,7 +7,7 @@ const config = {
     user: credentials.user,
     password: credentials.password,
     driver: 'msnodesqlv8',
-    connectionTimeout : 5000,
+    connectionTimeout: 5000,
     parseJSON: true,
     options: {
         trustedConnection: true
@@ -37,10 +37,12 @@ module.exports = {
                     if (err) {
                         return reject(err);
                     }
+                    pool.close()
                     return resolve(results);
                 })
             });
             pool.on('error', err => {
+                pool.close()
                 return reject(err);
             })
         });
@@ -52,11 +54,15 @@ module.exports = {
                 .then(pool => {
                     return pool.request()
                         .input('input_parameter', sql.NVarChar, tagname)
-                        .query("SELECT [TagName],[Value] FROM [Runtime].[dbo].[v_AnalogLive] where [TagName] = '"+tagname+"'")
+                        .query("SELECT [TagName],[Value] FROM [Runtime].[dbo].[v_AnalogLive] where [TagName] = '" + tagname + "'")
+                })
+                .catch(err => {
+                    sql.close();
+                    return reject(err);
                 })
                 .then(result => {
                     sql.close();
-                    return resolve(result.recordset[0].Value);
+                    return resolve(Math.round(result.recordset[0].Value * 100) / 100);
                 })
                 .catch(err => {
                     sql.close();

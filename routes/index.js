@@ -62,7 +62,7 @@ router.get('/indicators', function (req, res, next) {
 var converters = require('../services/converters');
 var price = require('../dal/cooperPrice');
 router.get('/test', function (req, res, next) {
-    converters()
+    price.getlast()
         .then(record => res.send(record))
         .catch(err => {
             res.statusCode = 500;
