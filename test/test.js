@@ -9,7 +9,6 @@ const expect = require('expect');
 describe('#Precio del cobre', function () {
     it('recuperar precio del cobre', async () => {
         const result = await price.getlast();
-        console.log(result);
         expect(result.price).to.equal(6538.5);
     })
 });

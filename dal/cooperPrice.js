@@ -10,10 +10,10 @@ module.exports = {
     },
     getlast: function() {
         return new Promise(function (resolve, reject) {
-            return cooperPrice.findOne().sort({createdAt: -1}).exec(function(err, price) {
+            return cooperPrice.find({}).sort({createdAt: -1}).limit(1).exec(function(err, price) {
                 if(err)
                     return reject(err);
-                return resolve(price);
+                return resolve(price[0]);
             });
         });
     }

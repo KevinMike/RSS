@@ -18,7 +18,7 @@ block content
                             td #{value.description}
                             td.td-actions.text-right
                                 a.btn.btn-primary.btn-simple.btn-xs(href='/feeder/#{value._id}',target="_blank", rel='tooltip', title='Ver rss')
-                                    i.material-icons edit
+                                    i.material-icons rss_feed
                                 a.btn.btn-primary.btn-simple.btn-xs(href='/rss/edit/#{value._id}', rel='tooltip', title='Editar')
                                     i.material-icons edit
                                 button.btn.btn-danger.btn-simple.btn-xs(type='button', rel='tooltip', title='Eliminar', ng-click='delete("#{value._id}")')

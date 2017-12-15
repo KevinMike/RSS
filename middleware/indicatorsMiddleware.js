@@ -23,7 +23,6 @@ module.exports.checkIfExist = function (req, res, next) {
         })
         .then(result => {
             sql.close();
-            console.log(result.recordset.length);
             if (result.recordset.length > 0)
                 return next();
             else

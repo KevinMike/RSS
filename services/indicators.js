@@ -19,29 +19,29 @@ module.exports = {
             let queries = [];
             let pool = new sql.ConnectionPool(config, err => {
                 if (err)
-                    console.log(err);
-                    reject(err);
+                    return reject(err);
                 tagsnames.forEach(item => {
                     queries.push(function (callback) {
                         pool.request()
                             .query("SELECT [TagName],[Value] FROM [Runtime].[dbo].[v_AnalogLive] where [TagName] = '" + item + "'   ", (err, result) => {
                                 if (err) {
-                                    callback(err);
+                                    return callback(err);
                                 }
                                 else {
-                                    callback(null, result);
+                                    return callback(null, result);
                                 }
                             })
                     });
                 });
                 async.parallel(queries, function (err, results) {
-                    if (err)
-                        reject(err);
-                    resolve(results);
+                    if (err) {
+                        return reject(err);
+                    }
+                    return resolve(results);
                 })
             });
             pool.on('error', err => {
-                reject(err);
+                return reject(err);
             })
         });
     },
@@ -52,19 +52,19 @@ module.exports = {
                 .then(pool => {
                     return pool.request()
                         .input('input_parameter', sql.NVarChar, tagname)
-                        .query("SELECT [TagName],[Value] FROM [Runtime].[dbo].[v_AnalogLive] where [TagName] = '${tagname}'")
+                        .query("SELECT [TagName],[Value] FROM [Runtime].[dbo].[v_AnalogLive] where [TagName] = '"+tagname+"'")
                 })
                 .then(result => {
                     sql.close();
-                    resolve(result);
+                    return resolve(result.recordset[0].Value);
                 })
                 .catch(err => {
                     sql.close();
-                    reject(err);
+                    return reject(err);
                 });
             sql.on('error', err => {
                 sql.close();
-                reject(err)
+                return reject(err)
             })
         });
     }

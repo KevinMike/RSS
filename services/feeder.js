@@ -19,37 +19,42 @@ module.exports = {
                             email: 'ibecti@southernperu.com.pe',
                         }
                     });
+                    // Comunicados
                     if (record.comunicates.length > 0) {
                         record.comunicates.forEach(item => feed.addItem({
                             title: item.comunicate,
                             content: item.comunicate
                         }))
                     }
-                    if (record.cooperPrice) {
-                        cooperPrice = price.getlast();
-                        if (cooperPrice !== undefined) {
-                            feed.addItem({
-                                title: 'Precio del cobre ' + cooperPrice.price + ' ' + cooperPrice.money,
-                                content: 'Precio del cobre ' + cooperPrice.price + ' ' + cooperPrice.money
+                    //Precio del cobre
+                    /*if (record.cooperPrice) {
+                        price.getlast()
+                            .then(recordPrice => {
+                                feed.addItem({
+                                    title: 'Precio del cobre ' + recordPrice.price + ' ' + recordPrice.money,
+                                    content: 'Precio del cobre ' + recordPrice.price + ' ' + recordPrice.money
+                                })
                             })
-
-                        }
-                    }
-                    /*if (record.indicators.length > 0) {
+                            .catch(err => {
+                                pass;
+                            })
+                    }*/
+                    if (record.indicators.length > 0) {
                         record.indicators.forEach(function (element) {
                             indicators.singleTagValue(element.tag).then(result => {
                                 feed.addItem({
-                                    title: element.description + ' : ' + Math.round(result.recordset[0].Value * 100) / 100 + element.units,
-                                    content: element.description + ' : ' + Math.round(result.recordset[0].Value * 100) / 100 + element.units
+                                    title: element.description + ' : ' + Math.round(result * 100) / 100 + element.units,
+                                    content: element.description + ' : ' + Math.round(result * 100) / 100 + element.units
                                 })
                             })
                                 .catch(err => {
                                     return null;
                                 })
                         });
-                    }*/
+                    }
+/*
                     if (record.cnvs) {
-                        converters
+                        converters()
                             .then(result => {
                                 console.log(result)
                                 feed.addItem({
@@ -74,13 +79,16 @@ module.exports = {
                             .catch(err => {
                             })
                     }
-                    if (record.phrases.length > 0) {
-                        var ramdon = Math.floor(Math.random() * record.phrases.length);
-                        feed.addItem({
-                            title: record.phrase[ramdon],
-                            content: record.phrase[ramdon]
-                        });
-                    }
+*/
+                    /*
+                                        if (record.phrases.length > 0) {
+                                            var ramdon = Math.floor(Math.random() * record.phrases.length);
+                                            feed.addItem({
+                                                title: record.phrase[ramdon],
+                                                content: record.phrase[ramdon]
+                                            });
+                                        }
+                    */
                     resolve(feed.rss2());
                 })
                 .catch(err => reject(err))

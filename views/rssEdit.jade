@@ -37,6 +37,9 @@ block content
                                                     label
                                                         input(type='checkbox', name='cooperPrice', ng-model='editedFeeder.cooperPrice',ng-init='editedFeeder.cooperPrice = #{indicator.cooperPrice}')
                                             td Añadir información sobre el precio de cobre
+                            .row
+                                button.btn.btn-primary.pull-right(ng-click='updateInformation("#{indicator._id}")') Actualizar información
+                                    .clearfix
             .row
                 .col-md-12
                     .card.card-nav-tabs
@@ -47,17 +50,17 @@ block content
                                     ul.nav.nav-tabs(data-tabs='tabs')
                                         li.active
                                             a(href='#indicatorsTab', data-toggle='tab')
-                                                i.material-icons bug_report
+                                                i.material-icons content_paste
                                                 |  Indicadores
                                                 .ripple-container
                                         li
                                             a(href='#comunicatesTab', data-toggle='tab')
-                                                i.material-icons code
+                                                i.material-icons library_books
                                                 |  Comunicados
                                                 .ripple-container
                                         li
                                             a(href='#phrasesTab', data-toggle='tab')
-                                                i.material-icons cloud
+                                                i.material-icons security
                                                 |  Frases de seguridad
                                                 .ripple-container
                         .card-content
@@ -76,14 +79,16 @@ block content
                                     form#indicatorsForm
                                         table.table
                                             tbody#indicatorsTable
-
-                                                td
-                                                    input(type='text', hidden='true', value='rowId', name="' + tableId + '[]")
-                                                    |  rowText
-                                                td.td-actions.text-right
-                                                    button.btn.btn-danger.btn-simple.btn-xs.pull-right(type='button', rel='tooltip', title='Eliminar', onclick="removeRow(\'' + tr.id + '\')")
-                                                        i.material-icons close
-
+                                                each element in indicator.indicators
+                                                    tr(id='#{element._id}')
+                                                        td
+                                                            input(type='text', hidden='true', value='#{element._id}', name="indicatorsTable[]")
+                                                            | #{element.tag} [#{element.units}] : #{element.description}
+                                                        td.td-actions.text-right
+                                                            button.btn.btn-danger.btn-simple.btn-xs.pull-right(type='button', rel='tooltip', title='Eliminar', onclick="removeRow('#{element._id}')")
+                                                                i.material-icons close
+                                    button.btn.btn-primary.pull-right(ng-click='updateIndicators("#{indicator._id}")') Actualizar indicadores
+                                        .clearfix
                                 #comunicatesTab.tab-pane
                                     .row
                                         .col-md-10.col-sm-8
@@ -98,6 +103,16 @@ block content
                                     form#comunicatesForm
                                         table.table
                                             tbody#comunicatesTable
+                                                each element in indicator.comunicates
+                                                    tr(id='#{element._id}')
+                                                        td
+                                                            input(type='text', hidden='true', value='#{element._id}', name="comunicatesTable[]")
+                                                            | #{element.comunicate}
+                                                        td.td-actions.text-right
+                                                            button.btn.btn-danger.btn-simple.btn-xs.pull-right(type='button', rel='tooltip', title='Eliminar', onclick="removeRow('#{element._id}')")
+                                                                i.material-icons close
+                                    button.btn.btn-primary.pull-right(ng-click='updateComunicates("#{indicator._id}")') Actualizar comunicados
+                                        .clearfix
                                 #phrasesTab.tab-pane
                                     .row
                                         .col-md-10.col-sm-8
@@ -112,8 +127,16 @@ block content
                                     form#phrasesForm
                                         table.table
                                             tbody#phrasesTable
-            button.btn.btn-primary.pull-right(ng-click='create()') Actualizar
-                .clearfix
+                                                each element in indicator.phrases
+                                                    tr(id='#{element._id}')
+                                                        td
+                                                            input(type='text', hidden='true', value='#{element._id}', name="phrasesTable[]")
+                                                            | #{element.phrase}
+                                                        td.td-actions.text-right
+                                                            button.btn.btn-danger.btn-simple.btn-xs.pull-right(type='button', rel='tooltip', title='Eliminar', onclick="removeRow('#{element._id}')")
+                                                                i.material-icons close
+                                    button.btn.btn-primary.pull-right(ng-click='updatePhrases("#{indicator._id}")') Actualizar frases de seguridad
+                                        .clearfix
 block Javascript
     script(type='text/javascript',src='/bower_components/chosen/chosen.jquery.js')
     script(type='text/javascript',src='/js/modules/feedersModule.js').

@@ -14,7 +14,6 @@ module.exports = function () {
                 let CPS6 = (FIT_00226_VALUE > 22000) ? 'Convertidor 6 soplando' : 'Convertidor 6 en stand by';
                 let CPS7 = (FIC_290246 > 22000) ? 'Convertidor 7 soplando' : 'Convertidor 7 en stand by';
                 let response = {cnv4: CPS4, cnv5: CPS5, cnv6: CPS6, cnv7: CPS7};
-                console.log(response);
                 resolve(response);
             })
             .catch(err => {

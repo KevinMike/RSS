@@ -21,9 +21,14 @@ router.get('/rss/new', function (req, res, next) {
 router.get('/rss/edit/:id', function (req, res, next) {
     Promise.all([indicatorsDAL.list(), comunicatesDAL.list(), phrasesDAL.list()])
         .then(results => {
-            feedersDAL.getOne({_id:req.params.id})
+            feedersDAL.getOne({_id: req.params.id})
                 .then(record => {
-                    res.render('rssEdit', {indicator:record,indicators: results[0], comunicates: results[1], phrases: results[2]});
+                    res.render('rssEdit', {
+                        indicator: record,
+                        indicators: results[0],
+                        comunicates: results[1],
+                        phrases: results[2]
+                    });
                 })
                 .catch(err => {
                     res.send(err);
@@ -54,6 +59,17 @@ router.get('/indicators', function (req, res, next) {
     })
 
 });
+var converters = require('../services/converters');
+var price = require('../dal/cooperPrice');
+router.get('/test', function (req, res, next) {
+    converters()
+        .then(record => res.send(record))
+        .catch(err => {
+            res.statusCode = 500;
+            res.send(err)
+        })
+});
 
 
 module.exports = router;
+
