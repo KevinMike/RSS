@@ -9,7 +9,6 @@ async function asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index++) {
         await callback(array[index], index, array)
     }
-    return 'done'
 }
 
 module.exports = {
@@ -39,16 +38,15 @@ module.exports = {
                             console.log('Error en la lectura de comunicados: ' + err);
                         }
                     }
-                    if (record.indicators.length) {
+                    if (record.indicators.length > 0) {
                         try {
-                            let state = asyncForEach(record.indicators,async function (element,index,array) {
-                                let value = await indicators.singleTagValue(element.tag);
-                                console.log(element,value);
-                                return feed.addItem({
-                                    title: element.description + ': ' + value + ' ' + element.units,
-                                    content: element.description + ': ' + value + ' ' + element.units
+                            for (let i = 0; i < record.indicators.length; i++) {
+                                let value = await indicators.singleTagValue(record.indicators[i].tag);
+                                feed.addItem({
+                                    title: record.indicators[i].description + ': ' + value + ' ' + record.indicators[i].units,
+                                    content: record.indicators[i].description + ': ' + value + ' ' + record.indicators[i].units
                                 });
-                            })
+                            }
                         }
 
                         catch (err) {
@@ -58,9 +56,10 @@ module.exports = {
                     if (record.cooperPrice) {
                         try {
                             let copperPrice = await price.getlast();
+                            let precio = Math.round((copperPrice.price / 2204.62) * 100) / 100;
                             feed.addItem({
-                                title: 'Precio del cobre : ' + copperPrice.price + ' ' + copperPrice.money,
-                                content: 'Precio del cobre : ' + copperPrice.price + ' ' + copperPrice.money
+                                title: 'Precio del cobre : ' + precio + ' ' + copperPrice.money,
+                                content: 'Precio del cobre : ' + precio + ' ' + copperPrice.money
                             });
                         }
                         catch (err) {
