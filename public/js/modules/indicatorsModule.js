@@ -26,7 +26,6 @@ angular.module('indicatorsModule', [])
 
                 })
                 .error(function (error, status, headers, config) {
-                    $scope.newIndicator = {};
                     $.notify({
                         icon: "notifications",
                         message: "Error: " + error.message
@@ -61,7 +60,6 @@ angular.module('indicatorsModule', [])
                     }, 3000);
                 })
                 .error(function (error, status, headers, config) {
-                    $scope.editedIndicator = {};
                     $.notify({
                         icon: "notifications",
                         message: "Error: " + error.message
